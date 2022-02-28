@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
 import './App.css';
+import Explanation from './components/Explanation';
+import Head from './components/Head';
+import MenuList from './components/MenuList';
+import Template from './components/Template';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background: #e9ecef;
+  }
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <GlobalStyle />
+      <Template>
+        <Head />
+        <MenuList></MenuList>
+        <Explanation></Explanation>
+      </Template>
+      <Routes></Routes>
+    </BrowserRouter>
   );
 }
 
