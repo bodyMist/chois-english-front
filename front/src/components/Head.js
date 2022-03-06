@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const HeadBlock = styled.div`
@@ -14,11 +15,23 @@ const HeadBlock = styled.div`
     color: #343a40;
   }
 `;
-
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    color: black;
+    text-decoration: none;
+  }
+`;
 function Head() {
   return (
     <HeadBlock>
-      <h1>CHOIS-ENGLISH</h1>
+      <StyledLink to="/">
+        <h1>CHOIS-ENGLISH</h1>
+      </StyledLink>
     </HeadBlock>
   );
 }

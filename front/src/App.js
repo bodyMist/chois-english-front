@@ -1,28 +1,38 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import './App.css';
-import Explanation from './components/Explanation';
+import MainBoard from './components/MainBoard';
 import Head from './components/Head';
 import MenuList from './components/MenuList';
 import Template from './components/Template';
+import PhotoTransfer from './components/PhotoTransfer';
+import Main from './components/Main';
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background: #e9ecef;
+    background: white;
   }
+`;
+const Header = styled.div`
+  position: sticky;
+  top: 0;
 `;
 
 function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <Template>
+      <Header>
         <Head />
         <MenuList></MenuList>
-        <Explanation></Explanation>
-      </Template>
-      <Routes></Routes>
+      </Header>
+      <Routes>
+        <>
+          <Route path="/" element={<Main />} />
+          <Route path="/phototransfer" element={<PhotoTransfer />} />
+        </>
+      </Routes>
     </BrowserRouter>
   );
 }
