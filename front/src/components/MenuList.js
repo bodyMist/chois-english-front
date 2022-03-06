@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const MenuListBlock = styled.div`
@@ -19,11 +20,25 @@ const Item = styled.li`
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.04);
   border-radius: 8px;
 `;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    color: black;
+    text-decoration: none;
+  }
+`;
 function MenuList() {
   return (
     <MenuListBlock>
       <ItemList>
-        <Item>사진변환</Item>
+        <Item>
+          <StyledLink to="/phototransfer">사진변환</StyledLink>
+        </Item>
         <Item>단어퀴즈</Item>
         <Item>문장퀴즈</Item>
         <Item>음성퀴즈</Item>
