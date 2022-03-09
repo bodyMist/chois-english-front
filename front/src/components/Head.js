@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useMenuDispatch, useMenuState } from '../MenuContext';
 
 const HeadBlock = styled.div`
   padding-top: 12px;
@@ -27,9 +28,10 @@ const StyledLink = styled(Link)`
   }
 `;
 function Head() {
+  const dispatch = useMenuDispatch();
   return (
     <HeadBlock>
-      <StyledLink to="/">
+      <StyledLink to="/" onClick={() => dispatch({ type: 'RESET' })}>
         <h1>CHOIS-ENGLISH</h1>
       </StyledLink>
     </HeadBlock>
