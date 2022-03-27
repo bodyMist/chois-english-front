@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Button, Spin } from 'antd';
+import { useTransferDispatch, useTransferState } from '../../TransferContext';
 
+// 렌더링 여러번 되는 문제 해결 필요함.
 const UploaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -11,12 +13,12 @@ const UploaderWrapper = styled.div`
   .img-wrapper {
     margin: 50px 2 20px 0;
     img {
-      width: 200px;
-      height: 200px;
+      width: 500px;
+      height: 500px;
     }
     .img-spinner {
-      width: 200px;
-      height: 200px;
+      width: 500px;
+      height: 500px;
     }
   }
   .upload-button {
@@ -27,12 +29,15 @@ const UploaderWrapper = styled.div`
 `;
 
 const PhotoTransfer = (props) => {
-  console.log(props);
+  const image = useTransferState();
+  const dispatch = useTransferDispatch();
+  console.log(image);
+  // console.log(props);
 
-  const [image, setImage] = useState({
-    image_file: '',
-    preview_URL: 'img/default_image.png',
-  });
+  // const [image, setImage] = useState({
+  //   image_file: '',
+  //   preview_URL: 'img/default_image.png',
+  // });
 
   const [loaded, setLoaded] = useState(false);
 
@@ -47,19 +52,23 @@ const PhotoTransfer = (props) => {
       fileReader.readAsDataURL(e.target.files[0]);
     }
     fileReader.onload = () => {
-      setImage({
-        image_file: e.target.files[0],
-        preview_URL: fileReader.result,
-      });
+      // setImage({
+      //   image_file: e.target.files[0],
+      //   preview_URL: fileReader.result,
+      // });
+      const imf = e.target.files[0];
+      const prv = fileReader.result;
+      dispatch({ type: 'SAVE', imf, prv });
       setLoaded(true);
     };
   };
 
   const deleteImage = () => {
-    setImage({
-      image_file: '',
-      preview_URL: 'img/default_image.png',
-    });
+    // setImage({
+    //   image_file: '',
+    //   preview_URL: 'img/default_image.png',
+    // });
+    dispatch({ type: 'DELETE' });
     setLoaded(false);
   };
 
@@ -69,10 +78,10 @@ const PhotoTransfer = (props) => {
       formData.append('file', image.image_file);
       await axios.post('/api/image/upload', formData);
       alert('서버에 등록이 완료되었습니다');
-      setImage({
-        image_file: '',
-        preview_URL: 'img/default_image.png',
-      });
+      // setImage({
+      //   image_file: '',
+      //   preview_URL: 'img/default_image.png',
+      // });
       setLoaded(false);
     } else {
       alert('사진을 등록하세요!');

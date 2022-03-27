@@ -11,6 +11,7 @@ import { MenuProvider } from './MenuContext';
 import Header from './components/Nav/Header';
 import Login from './components/Nav/Login/Login';
 import Register from './components/Nav/Login/Register';
+import { TransferProvider } from './TransferContext';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -18,10 +19,19 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const AppProvider = ({ contexts, children }) =>
+  contexts.reduce(
+    (prev, context) =>
+      React.createElement(context, {
+        children: prev,
+      }),
+    children
+  );
+
 function App() {
   return (
     <BrowserRouter>
-      <MenuProvider>
+      <AppProvider contexts={[MenuProvider, TransferProvider]}>
         <GlobalStyle />
         <Header />
         <Routes>
@@ -33,7 +43,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
-      </MenuProvider>
+      </AppProvider>
     </BrowserRouter>
   );
 }

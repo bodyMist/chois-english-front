@@ -38,3 +38,10 @@ export const SubmitBtn = styled.input`
   margin-bottom: 10px;
   color: white;
 `;
+
+export const QuizContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
