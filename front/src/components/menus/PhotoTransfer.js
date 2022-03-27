@@ -13,8 +13,8 @@ const UploaderWrapper = styled.div`
   .img-wrapper {
     margin: 50px 2 20px 0;
     img {
-      width: 500px;
-      height: 500px;
+      width: 100%;
+      object-fit: cover;
     }
     .img-spinner {
       width: 500px;
