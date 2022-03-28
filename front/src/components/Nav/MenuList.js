@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import styled from 'styled-components';
-import { useMenuDispatch, useMenuState } from '../MenuContext';
+import { useMenuDispatch, useMenuState } from '../../MenuContext';
+import { StyledLink } from '../Styles';
 
 const MenuListBlock = styled.div`
   border-bottom: 1px solid #e9ecef;
@@ -26,18 +26,6 @@ const Item = styled.li`
   border: 1px solid #e9ecef;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.04);
   border-radius: 8px;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  &:focus,
-  &:hover,
-  &:visited,
-  &:link,
-  &:active {
-    color: black;
-    text-decoration: none;
-  }
 `;
 
 function MenuList() {

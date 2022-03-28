@@ -1,41 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { StyledLink } from '../Styles';
 import styled from 'styled-components';
-import { useMenuDispatch, useMenuState } from '../MenuContext';
+import { useMenuDispatch } from '../../MenuContext';
+import Nav from './Nav';
 
 const HeadBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding-top: 12px;
   padding-left: 32px;
   padding-right: 32px;
   padding-bottom: 12px;
   border-bottom: 1px solid #e9ecef;
-  text-align: center;
   h1 {
     margin: 0;
     font-size: 32px;
     color: #343a40;
   }
 `;
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  &:focus,
-  &:hover,
-  &:visited,
-  &:link,
-  &:active {
-    color: black;
-    text-decoration: none;
-  }
-`;
-function Head() {
-  const dispatch = useMenuDispatch();
+
+function Logo() {
+  const dispatch = useMenuDispatch;
   return (
     <HeadBlock>
       <StyledLink to="/" onClick={() => dispatch({ type: 'RESET' })}>
         <h1>CHOIS-ENGLISH</h1>
       </StyledLink>
+      <Nav></Nav>
     </HeadBlock>
   );
 }
 
-export default Head;
+export default Logo;
