@@ -10,11 +10,14 @@ const UploaderWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 500px;
+  margin: auto;
   .img-wrapper {
     margin: 50px 2 20px 0;
     img {
-      width: 100%;
-      object-fit: cover;
+      width: 500px;
+      height: 500px;
+      object-fit: contain;
     }
     .img-spinner {
       width: 500px;
@@ -31,7 +34,7 @@ const UploaderWrapper = styled.div`
 const PhotoTransfer = (props) => {
   const image = useTransferState();
   const dispatch = useTransferDispatch();
-  console.log(image);
+  // console.log(image);
   // console.log(props);
 
   // const [image, setImage] = useState({
@@ -39,7 +42,7 @@ const PhotoTransfer = (props) => {
   //   preview_URL: 'img/default_image.png',
   // });
 
-  const [loaded, setLoaded] = useState(false);
+  // const [loaded, setLoaded] = useState(false);
 
   let inputRef;
 
@@ -48,7 +51,6 @@ const PhotoTransfer = (props) => {
     const fileReader = new FileReader();
 
     if (e.target.files[0]) {
-      setLoaded('loading');
       fileReader.readAsDataURL(e.target.files[0]);
     }
     fileReader.onload = () => {
@@ -58,8 +60,9 @@ const PhotoTransfer = (props) => {
       // });
       const imf = e.target.files[0];
       const prv = fileReader.result;
+      console.log(imf);
+      console.log(prv); //base64 code
       dispatch({ type: 'SAVE', imf, prv });
-      setLoaded(true);
     };
   };
 
@@ -69,7 +72,6 @@ const PhotoTransfer = (props) => {
     //   preview_URL: 'img/default_image.png',
     // });
     dispatch({ type: 'DELETE' });
-    setLoaded(false);
   };
 
   const sendImageToServer = async () => {
@@ -82,7 +84,6 @@ const PhotoTransfer = (props) => {
       //   image_file: '',
       //   preview_URL: 'img/default_image.png',
       // });
-      setLoaded(false);
     } else {
       alert('사진을 등록하세요!');
     }
@@ -98,7 +99,7 @@ const PhotoTransfer = (props) => {
         style={{ display: 'none' }}
       />
       <div className="img-wrapper">
-        {loaded === false || loaded === true ? (
+        {image.loaded === false || image.loaded === true ? (
           <img src={image.preview_URL} />
         ) : (
           <Spin className="img-spinner" tip="이미지 불러오는중" />

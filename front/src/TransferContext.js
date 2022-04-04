@@ -3,22 +3,29 @@ import React, { createContext, useContext, useReducer } from 'react';
 const Image = {
   image_file: '',
   preview_URL: 'img/default_image.png',
+  sentence: 'i\'m foolish',
+  loaded: false,
 };
 function TransferReducer(state, action) {
   switch (action.type) {
     case 'SAVE':
       return {
+        ...state,
         image_file: action.imf,
         preview_URL: action.prv,
+        loaded: true,
       };
     case 'DELETE':
       return {
+        ...state,
         image_file: '',
         preview_URL: 'img/default_image.png',
+        loaded: false,
       };
     // 파일 전송 시퀸스에 맞게 수정필요함.
     case 'SENDTOSERVER':
       return {
+        ...state,
         image_file: action.imf,
         preview_URL: action.prv,
       };
