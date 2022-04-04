@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useMenuDispatch } from '../../../MenuContext';
 import { useUserDispatch, useUserState } from '../../../UserContext';
@@ -17,11 +18,12 @@ const LoginForm = styled.div`
 function Login() {
   const menuDispatch = useMenuDispatch();
   const userDispatch = useUserDispatch();
-  const user = useUserState();
   const [account, setAccount] = useState({
     account: '',
     password: '',
   });
+
+  const navigate = useNavigate();
 
   const onChangeAccount = (e) => {
     setAccount({
@@ -32,25 +34,18 @@ function Login() {
 
   const onSubmitAccount = async () => {
     console.log(account);
-    // await axios({
-    //   method: 'POST',
-    //   url: '210.91.148.88:3000/member/login',
-    //   data: {
-    //     account: account.account,
-    //     password: account.password,
-    //   },
-    // })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     throw new Error(error);
-    //   });
     await axios
-      .get('210.91.148.88:3000/member/checkAccount/sky834459')
+      .post('http://210.91.148.88:3000/member/login', {
+        account: account.account,
+        password: account.password,
+      })
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
+        const data = res.data;
+        if (data) {
+          userDispatch({ type: 'LOGIN', data });
+          navigate('/', { replace: true });
+        }
       })
       .catch((error) => {
         console.log(error);
