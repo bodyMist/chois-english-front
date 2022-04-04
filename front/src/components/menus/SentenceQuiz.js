@@ -1,14 +1,23 @@
 import React from 'react';
+import styled from 'styled-components';
+import { useTransferDispatch, useTransferState } from '../../TransferContext';
 import { QuizContainer } from '../Styles';
 import PhotoTransfer from './PhotoTransfer';
 
+const SolutionBox = styled.div`
+  display: ${(props) => (props.isLoaded ? 'block' : 'none')};
+`;
 // 기능 전체적으로 화면구상 해야함
 // 막막함..
 function SentenceQuiz() {
+  const sentence = useTransferState();
+  const dispatch = useTransferDispatch();
+  console.log(sentence.sentence);
   return (
     <QuizContainer>
       <h2>문장 퀴즈</h2>
       <PhotoTransfer />
+      <SolutionBox isLoaded={sentence.loaded}>{sentence.sentence}</SolutionBox>
     </QuizContainer>
   );
 }
