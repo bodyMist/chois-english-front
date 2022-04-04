@@ -4,6 +4,7 @@ import MenuList from './MenuList';
 import Logo from './Logo';
 
 const HeaderContainer = styled.div`
+  background-color: white;
   z-index: 99;
   position: sticky;
   top: 0;
