@@ -12,6 +12,7 @@ import Header from './components/Nav/Header';
 import Login from './components/Nav/Login/Login';
 import Register from './components/Nav/Login/Register';
 import { TransferProvider } from './TransferContext';
+import { UserProvider } from './UserContext';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -31,7 +32,7 @@ const AppProvider = ({ contexts, children }) =>
 function App() {
   return (
     <BrowserRouter>
-      <AppProvider contexts={[MenuProvider, TransferProvider]}>
+      <AppProvider contexts={[MenuProvider, TransferProvider, UserProvider]}>
         <GlobalStyle />
         <Header />
         <Routes>

@@ -1,6 +1,8 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useMenuDispatch } from '../../../MenuContext';
+import { useUserDispatch, useUserState } from '../../../UserContext';
 import { StyledLink, TextInput, SubmitBtn, SubmitForm } from '../../Styles';
 const LoginForm = styled.div`
   width: 300px;
@@ -13,14 +15,66 @@ const LoginForm = styled.div`
   border: none;
 `;
 function Login() {
-  const dispatch = useMenuDispatch();
+  const menuDispatch = useMenuDispatch();
+  const userDispatch = useUserDispatch();
+  const user = useUserState();
+  const [account, setAccount] = useState({
+    account: '',
+    password: '',
+  });
+
+  const onChangeAccount = (e) => {
+    setAccount({
+      ...account,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const onSubmitAccount = async () => {
+    console.log(account);
+    // await axios({
+    //   method: 'POST',
+    //   url: '210.91.148.88:3000/member/login',
+    //   data: {
+    //     account: account.account,
+    //     password: account.password,
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     throw new Error(error);
+    //   });
+    await axios
+      .get('210.91.148.88:3000/member/checkAccount/sky834459')
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+        throw new Error(error);
+      });
+  };
+
   return (
     <LoginForm>
       <h2>Login</h2>
-      <TextInput type="text" name="email" placeholder="ID"></TextInput>
-      <TextInput type="text" name="email" placeholder="PW"></TextInput>
+      <TextInput
+        type="text"
+        name="account"
+        placeholder="ID"
+        onChange={onChangeAccount}
+      ></TextInput>
+      <TextInput
+        type="password"
+        name="password"
+        placeholder="PW"
+        onChange={onChangeAccount}
+      ></TextInput>
       <SubmitForm>
-        <SubmitBtn type="submit" value="Login" />
+        <SubmitBtn type="submit" value="Login" onClick={onSubmitAccount} />
         <StyledLink
           to="/register"
           style={{
@@ -31,7 +85,7 @@ function Login() {
             marginBottom: '10px',
             color: 'white',
           }}
-          onClick={() => dispatch({ type: 'RESET' })}
+          onClick={() => menuDispatch({ type: 'RESET' })}
         >
           회원가입
         </StyledLink>

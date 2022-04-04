@@ -20,10 +20,10 @@ const StyledLink = styled(Link)`
   }
 `;
 function Nav() {
-  const dispatch = useMenuDispatch();
+  const menuDispatch = useMenuDispatch();
   return (
     <NavContainer>
-      <StyledLink to="/login" onClick={() => dispatch({ type: 'RESET' })}>
+      <StyledLink to="/login" onClick={() => menuDispatch({ type: 'RESET' })}>
         로그인
       </StyledLink>
     </NavContainer>
