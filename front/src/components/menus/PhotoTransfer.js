@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { Button, Spin } from 'antd';
 import { useTransferDispatch, useTransferState } from '../../TransferContext';
+import 'antd/dist/antd.css';
 
 // 렌더링 여러번 되는 문제 해결 필요함.
 const UploaderWrapper = styled.div`
@@ -25,6 +26,7 @@ const UploaderWrapper = styled.div`
     }
   }
   .upload-button {
+    margin-top: 10px;
     button {
       margin: 0 5px;
     }
@@ -53,15 +55,10 @@ const PhotoTransfer = (props) => {
     if (e.target.files[0]) {
       fileReader.readAsDataURL(e.target.files[0]);
     }
+
     fileReader.onload = () => {
-      // setImage({
-      //   image_file: e.target.files[0],
-      //   preview_URL: fileReader.result,
-      // });
       const imf = e.target.files[0];
       const prv = fileReader.result;
-      console.log(imf);
-      console.log(prv); //base64 code
       dispatch({ type: 'SAVE', imf, prv });
     };
   };
@@ -75,15 +72,16 @@ const PhotoTransfer = (props) => {
   };
 
   const sendImageToServer = async () => {
+    console.log(image.preview_URL);
     if (image.image_file) {
       const formData = new FormData();
       formData.append('file', image.image_file);
-      await axios.post('/api/image/upload', formData);
+      console.log(formData.get('file'));
+      await axios
+        .post('http://210.91.148.88:3000/image/localCaption', formData)
+        .then((res) => {});
+
       alert('서버에 등록이 완료되었습니다');
-      // setImage({
-      //   image_file: '',
-      //   preview_URL: 'img/default_image.png',
-      // });
     } else {
       alert('사진을 등록하세요!');
     }

@@ -127,6 +127,7 @@ function Register() {
           type="text"
           name="account"
           placeholder="아이디"
+          autoComplete="off"
           onChange={onChangeId}
         />
       </FormBox>
@@ -164,6 +165,7 @@ function Register() {
           type="text"
           name="name"
           placeholder="이름"
+          autoComplete="off"
           onChange={onChangeName}
         />
         {name.length > 0 && (
@@ -178,6 +180,7 @@ function Register() {
           type="email"
           name="email"
           placeholder="e-mail"
+          autoComplete="off"
           onChange={onChangeEmail}
         />
         {email.length > 0 && (
