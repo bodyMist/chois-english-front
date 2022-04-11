@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useMenuDispatch } from '../../../MenuContext';
-import { useUserDispatch, useUserState } from '../../../UserContext';
+import { useUserDispatch } from '../../../UserContext';
 import { StyledLink, TextInput, SubmitBtn, SubmitForm } from '../../Styles';
 const LoginForm = styled.div`
   width: 300px;
@@ -32,15 +32,13 @@ function Login() {
     });
   };
 
-  const onSubmitAccount = async () => {
-    console.log(account);
+  const onSubmitAccount = useCallback(async () => {
     await axios
-      .post('http://210.91.148.88:3000/member/login', {
+      .post('http://localhost:3000/member/login', {
         account: account.account,
         password: account.password,
       })
       .then((res) => {
-        console.log(res.data);
         const data = res.data;
         if (data) {
           userDispatch({ type: 'LOGIN', data });
@@ -48,10 +46,9 @@ function Login() {
         }
       })
       .catch((error) => {
-        console.log(error);
         throw new Error(error);
       });
-  };
+  }, [account]);
 
   return (
     <LoginForm>
@@ -82,11 +79,11 @@ function Login() {
           }}
           onClick={() => menuDispatch({ type: 'RESET' })}
         >
-          회원가입
+          Regist
         </StyledLink>
       </SubmitForm>
     </LoginForm>
   );
 }
 
-export default Login;
+export default React.memo(Login);

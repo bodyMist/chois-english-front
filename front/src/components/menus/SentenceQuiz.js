@@ -15,11 +15,10 @@ function SentenceQuiz() {
   console.log(sentence.sentence);
   return (
     <QuizContainer>
-      <h2>문장 퀴즈</h2>
       <PhotoTransfer />
       <SolutionBox isLoaded={sentence.loaded}>{sentence.sentence}</SolutionBox>
     </QuizContainer>
   );
 }
 
-export default SentenceQuiz;
+export default React.memo(SentenceQuiz);
