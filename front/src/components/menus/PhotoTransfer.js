@@ -121,4 +121,4 @@ const PhotoTransfer = (props) => {
   );
 };
 
-export default PhotoTransfer;
+export default React.memo(PhotoTransfer);

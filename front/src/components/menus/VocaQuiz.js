@@ -1,15 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTransferState } from '../../TransferContext';
 import { QuizContainer } from '../Styles';
 import PhotoTransfer from './PhotoTransfer';
-
+const SolutionBox = styled.div`
+  display: ${(props) => (props.isLoaded ? 'block' : 'none')};
+`;
 function VocaQuiz() {
+  const sentence = useTransferState();
   return (
     <QuizContainer>
-      <h2>단어 퀴즈</h2>
       <PhotoTransfer />
+      <SolutionBox isLoaded={sentence.loaded}>{sentence.sentence}</SolutionBox>
     </QuizContainer>
   );
 }
 
-export default VocaQuiz;
+export default React.memo(VocaQuiz);

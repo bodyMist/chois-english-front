@@ -6,7 +6,6 @@ import PhotoTransfer from './components/menus/PhotoTransfer';
 import Main from './components/Main';
 import VocaQuiz from './components/menus/VocaQuiz';
 import SentenceQuiz from './components/menus/SentenceQuiz';
-import VoiceQuiz from './components/menus/VoiceQuiz';
 import { MenuProvider } from './MenuContext';
 import Header from './components/Nav/Header';
 import Login from './components/Nav/Login/Login';
@@ -40,7 +39,6 @@ function App() {
           <Route path="/phototransfer" element={<PhotoTransfer />} />
           <Route path="/vocaquiz" element={<VocaQuiz />} />
           <Route path="/sentencequiz" element={<SentenceQuiz />} />
-          <Route path="/voicequiz" element={<VoiceQuiz />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>

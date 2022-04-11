@@ -35,27 +35,28 @@ function Nav() {
     userDispatch({ type: 'LOGOUT' });
     menuDispatch({ type: 'RESET' });
   };
+  const isLogin = userState.result;
   return (
     <NavContainer>
       <StyledLink
         to="/login"
         onClick={() => menuDispatch({ type: 'RESET' })}
-        islogin={userState.result}
+        islogin={isLogin}
       >
         로그인
       </StyledLink>
       <StyledLink
         to="/user"
         onClick={() => menuDispatch({ type: 'RESET' })}
-        islogin={!userState.result}
+        islogin={!isLogin}
       >
         안녕하세요 {userState.name} 님
       </StyledLink>
-      <StyledLink to="/" onClick={logout} islogin={!userState.result}>
+      <StyledLink to="/" onClick={logout} islogin={!isLogin}>
         &nbsp;로그아웃
       </StyledLink>
     </NavContainer>
   );
 }
 
-export default Nav;
+export default React.memo(Nav);
