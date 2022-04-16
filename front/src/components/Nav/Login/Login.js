@@ -47,7 +47,6 @@ function Login() {
       })
       .then((res) => {
         const data = res.data;
-        console.log(data.member.result.name);
         if (data) {
           localStorage.setItem('userData', JSON.stringify(data));
           userDispatch({ type: 'LOGIN', data });

@@ -1,6 +1,10 @@
 import { Form } from 'antd';
+import { responsiveArray } from 'antd/lib/_util/responsiveObserve';
+import axios from 'axios';
 import React, { useCallback, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useUserDispatch } from '../../../UserContext';
 import { SubmitBtn, TextInput } from '../../Styles';
 
 const RegistForm = styled.div`
@@ -19,6 +23,8 @@ const RegistForm = styled.div`
 `;
 
 const FormBox = styled.div`
+  display: flex;
+  flex-direction: row;
   position: relative;
   margin-bottom: 20px;
   .message {
@@ -46,8 +52,16 @@ const FormBox = styled.div`
   }
 `;
 
+const CheckButton = styled.button`
+  font-size: 13px;
+  border: none;
+  background-color: #1bbc9b;
+  color: white;
+  height: 45px;
+`;
+
 function Register() {
-  const [id, setId] = useState('');
+  const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [name, setName] = useState('');
@@ -58,13 +72,14 @@ function Register() {
   const [passwordMessage, setPasswordMessage] = useState('');
   const [passwordConfirmMessage, setpasswordConfirmMessage] = useState('');
 
+  const [isAccount, setIsAccount] = useState(false);
   const [isName, setIsName] = useState(false);
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
   const onChangeId = (e) => {
-    setId(e.target.value);
+    setAccount(e.target.value);
   };
   const onChangeName = useCallback((e) => {
     setName(e.target.value);
@@ -118,7 +133,36 @@ function Register() {
     },
     [password]
   );
-  const onSubmitRegist = useCallback(async () => {});
+  const checkAccountDuplicate = useCallback(async () => {
+    await axios
+      .get(`http://210.91.148.88:3000/member/checkAccount/${account}`)
+      .then((res) => {
+        if (!res.data.result) {
+          alert('중복된 계정 입니다.');
+        }
+        setIsAccount(res.data.result);
+      });
+  }, []);
+  const onSubmitRegist = useCallback(async () => {
+    await axios
+      .post('http://210.91.148.88:3000/member/join', {
+        name: name,
+        account: account,
+        password: password,
+        email: email,
+      })
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+        if (data) {
+          alert('회원가입이 완료되었습니다.');
+          Navigate('/Login', { replace: true });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [name, account, password, email]);
   return (
     <RegistForm>
       <h2>회원가입</h2>
@@ -129,7 +173,12 @@ function Register() {
           placeholder="아이디"
           autoComplete="off"
           onChange={onChangeId}
+          style={{
+            width: '70%',
+            marginRight: '10px',
+          }}
         />
+        <CheckButton onClick={checkAccountDuplicate}>중복검사</CheckButton>
       </FormBox>
       <FormBox>
         <TextInput
@@ -137,7 +186,7 @@ function Register() {
           name="password"
           placeholder="비밀번호"
           onChange={onChangePassword}
-          style={{ border: `1px solid ${id.color}` }}
+          style={{ border: `1px solid ${account.color}` }}
         />
         {password.length > 0 && (
           <span className={`message ${isPassword ? 'success' : 'error'}`}>
@@ -193,9 +242,11 @@ function Register() {
         <SubmitBtn
           type="submit"
           value="REGIST"
-          disabled={!(isName && isEmail && isPassword && isPasswordConfirm)}
+          disabled={
+            !(isName && isEmail && isPassword && isPasswordConfirm && isAccount)
+          }
           className={`submitBtn ${
-            !(isName && isEmail && isPassword && isPasswordConfirm)
+            !(isName && isEmail && isPassword && isPasswordConfirm && isAccount)
               ? 'error'
               : 'success'
           }`}

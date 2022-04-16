@@ -35,13 +35,22 @@ function Nav() {
     userDispatch({ type: 'LOGOUT' });
     menuDispatch({ type: 'RESET' });
   };
+
+  // const userData = JSON.parse(localStorage.getItem('userData'));
+  // if (userData) {
+  //   isLogin = userData.member.result;
+  //   name = userData.member.result.name;
+  // }
+  if (typeof window !== 'undefined') {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    if (userData !== null) {
+      // isLogin = userData.member.result;
+      // name = userData.member.result.name;
+      userDispatch({ type: 'LOGIN', userData });
+    }
+  }
   let isLogin = userState.result;
   let name = userState.name;
-  const userData = JSON.parse(localStorage.getItem('userData'));
-  if (userData) {
-    isLogin = userData.member.result;
-    name = userData.member.result.name;
-  }
   return (
     <NavContainer>
       <StyledLink
