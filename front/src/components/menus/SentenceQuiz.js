@@ -12,11 +12,11 @@ const SolutionBox = styled.div`
 function SentenceQuiz() {
   const sentence = useTransferState();
   const dispatch = useTransferDispatch();
-  console.log(sentence.sentence);
+  console.log(sentence.caption);
   return (
     <QuizContainer>
       <PhotoTransfer />
-      <SolutionBox isLoaded={sentence.loaded}>{sentence.sentence}</SolutionBox>
+      <SolutionBox isLoaded={sentence.loaded}>{sentence.caption}</SolutionBox>
     </QuizContainer>
   );
 }
