@@ -21,8 +21,9 @@ const UploaderWrapper = styled.div`
       object-fit: contain;
     }
     .img-spinner {
+      margin-top: 250px;
       width: 500px;
-      height: 500px;
+      height: 250px;
     }
   }
   .upload-button {
@@ -33,18 +34,9 @@ const UploaderWrapper = styled.div`
   }
 `;
 
-const PhotoTransfer = (props) => {
+const PhotoTransfer = () => {
   const image = useTransferState();
   const dispatch = useTransferDispatch();
-  // console.log(image);
-  // console.log(props);
-
-  // const [image, setImage] = useState({
-  //   image_file: '',
-  //   preview_URL: 'img/default_image.png',
-  // });
-
-  // const [loaded, setLoaded] = useState(false);
 
   let inputRef;
 
@@ -53,6 +45,7 @@ const PhotoTransfer = (props) => {
     const fileReader = new FileReader();
 
     if (e.target.files[0]) {
+      dispatch({ type: 'LOADING' });
       fileReader.readAsDataURL(e.target.files[0]);
     }
 
@@ -64,10 +57,6 @@ const PhotoTransfer = (props) => {
   };
 
   const deleteImage = () => {
-    // setImage({
-    //   image_file: '',
-    //   preview_URL: 'img/default_image.png',
-    // });
     dispatch({ type: 'DELETE' });
   };
 
@@ -79,14 +68,18 @@ const PhotoTransfer = (props) => {
       console.log(formData.get('file'));
       await axios
         .post('http://210.91.148.88:3000/image/localCaption', formData)
-        .then((res) => {});
+        .then((res) => {
+          const data = res.data;
+          const blank = data.blank;
+          const caption = data.caption;
+          dispatch({ type: 'SENDTOSERVER', blank, caption });
+        });
 
       alert('서버에 등록이 완료되었습니다');
     } else {
       alert('사진을 등록하세요!');
     }
   };
-
   return (
     <UploaderWrapper>
       <input
