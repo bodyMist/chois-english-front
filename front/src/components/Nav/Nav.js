@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useMenuDispatch } from '../../MenuContext';
 import { useUserDispatch, useUserState } from '../../UserContext';
-import { css } from 'styled-components';
 const NavContainer = styled.div`
   position: absolute;
   top: 20%;
-  right: 2%;
+  right: 5%;
   .isLogin {
     &.Login {
       display: none;
@@ -43,7 +42,7 @@ function Nav() {
         userDispatch({ type: 'LOGIN', data });
       }
     }
-  }, []);
+  }, [userState, userDispatch]);
   let isLogin = userState.result;
   let name = userState.name;
   return (

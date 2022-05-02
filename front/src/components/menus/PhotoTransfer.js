@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Button, Spin } from 'antd';
@@ -11,19 +11,19 @@ const UploaderWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 500px;
+  width: 400px;
   margin: auto;
   .img-wrapper {
     margin: 50px 2 20px 0;
     img {
-      width: 500px;
-      height: 500px;
+      width: 400px;
+      height: 400px;
       object-fit: contain;
     }
     .img-spinner {
-      margin-top: 250px;
-      width: 500px;
-      height: 250px;
+      margin-top: 200px;
+      width: 400px;
+      height: 200px;
     }
   }
   .upload-button {
@@ -74,6 +74,9 @@ const PhotoTransfer = () => {
           // const caption = data.caption;
           // dispatch({ type: 'SENDTOSERVER', blank, caption });
           console.log(res);
+        })
+        .catch((error) => {
+          throw new Error(error);
         });
 
       alert('서버에 등록이 완료되었습니다');
@@ -92,7 +95,7 @@ const PhotoTransfer = () => {
       />
       <div className="img-wrapper">
         {image.loaded === false || image.loaded === true ? (
-          <img src={image.preview_URL} />
+          <img src={image.preview_URL} alt="" />
         ) : (
           <Spin className="img-spinner" tip="이미지 불러오는중" />
         )}
