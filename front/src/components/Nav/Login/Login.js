@@ -38,7 +38,7 @@ function Login() {
     },
     [account]
   );
-
+  //210.91.148.88
   const onSubmitAccount = useCallback(async () => {
     await axios
       .post('http://210.91.148.88:3000/member/login', {
@@ -49,6 +49,8 @@ function Login() {
         const data = res.data;
         if (data) {
           localStorage.setItem('userData', JSON.stringify(data));
+          console.log(JSON.parse(localStorage.getItem('userData')));
+          console.log(data);
           userDispatch({ type: 'LOGIN', data });
           navigate('/', { replace: true });
         }
@@ -72,6 +74,7 @@ function Login() {
         type="password"
         name="password"
         placeholder="PW"
+        autoCapitalize="off"
         onChange={onChangeAccount}
       ></TextInput>
       <SubmitForm>
