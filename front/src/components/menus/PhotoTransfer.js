@@ -11,19 +11,19 @@ const UploaderWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 500px;
+  width: 400px;
   margin: auto;
   .img-wrapper {
     margin: 50px 2 20px 0;
     img {
-      width: 500px;
-      height: 500px;
+      width: 400px;
+      height: 400px;
       object-fit: contain;
     }
     .img-spinner {
-      margin-top: 250px;
-      width: 500px;
-      height: 250px;
+      margin-top: 200px;
+      width: 400px;
+      height: 200px;
     }
   }
   .upload-button {

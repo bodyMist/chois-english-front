@@ -6,7 +6,7 @@ import { useUserDispatch, useUserState } from '../../UserContext';
 const NavContainer = styled.div`
   position: absolute;
   top: 20%;
-  right: 2%;
+  right: 5%;
   .isLogin {
     &.Login {
       display: none;

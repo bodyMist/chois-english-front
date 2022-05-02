@@ -13,6 +13,7 @@ import Register from './components/Nav/Login/Register';
 import { TransferProvider } from './TransferContext';
 import { UserProvider } from './UserContext';
 import UserPage from './components/UserPage';
+import Template from './components/Template';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -33,6 +34,7 @@ function App() {
   return (
     <BrowserRouter>
       <AppProvider contexts={[MenuProvider, TransferProvider, UserProvider]}>
+        {/* <Template> */}
         <GlobalStyle />
         <Header />
         <Routes>
@@ -44,6 +46,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/userpage" element={<UserPage />} />
         </Routes>
+        {/* </Template> */}
       </AppProvider>
     </BrowserRouter>
   );

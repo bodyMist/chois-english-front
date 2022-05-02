@@ -4,7 +4,7 @@ import { useMenuDispatch, useMenuState } from '../../MenuContext';
 import { StyledLink } from '../Styles';
 
 const MenuListBlock = styled.div`
-  border-bottom: 1px solid #e9ecef;
+  /* border-bottom: 1px solid #e9ecef; */
   background-color: white;
 `;
 

@@ -12,7 +12,7 @@ const HeadBlock = styled.div`
   padding-left: 32px;
   padding-right: 32px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #e9ecef;
+  /* border-bottom: 1px solid #e9ecef; */
   h1 {
     margin: 0;
     font-size: 32px;
