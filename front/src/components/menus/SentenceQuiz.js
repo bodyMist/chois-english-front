@@ -37,7 +37,7 @@ function SentenceQuiz() {
   );
   const submitAnswer = useCallback(async () => {
     await axios
-      .post('http://210.91.148.88:3000/image/answer/word', {
+      .post('http://210.91.148.88:3000/image/answer/sentence', {
         user_input: answer.userInput,
         answer: answer.answer,
         blank: answer.blank,
