@@ -3,7 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { Button, Spin } from 'antd';
 import { useTransferDispatch, useTransferState } from '../../TransferContext';
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 
 // 렌더링 여러번 되는 문제 해결 필요함.
 const UploaderWrapper = styled.div`
@@ -67,12 +67,13 @@ const PhotoTransfer = () => {
       formData.append('file', image.image_file);
       console.log(formData.get('file'));
       await axios
-        .post('http://210.91.148.88:3000/image/localCaption', formData)
+        .post('http://210.91.148.88:3000/image/saveImage', formData)
         .then((res) => {
-          const data = res.data;
-          const blank = data.blank;
-          const caption = data.caption;
-          dispatch({ type: 'SENDTOSERVER', blank, caption });
+          // const data = res.data;
+          // const blank = data.blank;
+          // const caption = data.caption;
+          // dispatch({ type: 'SENDTOSERVER', blank, caption });
+          console.log(res);
         });
 
       alert('서버에 등록이 완료되었습니다');
