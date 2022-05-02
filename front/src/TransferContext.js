@@ -3,11 +3,17 @@ import React, { createContext, useContext, useReducer } from 'react';
 const Image = {
   image_file: '',
   preview_URL: 'img/default_image.png',
-  sentence: 'i\'m foolish',
+  caption: 'I like chocolate',
+  blank: '',
   loaded: false,
 };
 function TransferReducer(state, action) {
   switch (action.type) {
+    case 'LOADING':
+      return {
+        ...state,
+        loaded: 'loading',
+      };
     case 'SAVE':
       return {
         ...state,
@@ -26,8 +32,9 @@ function TransferReducer(state, action) {
     case 'SENDTOSERVER':
       return {
         ...state,
-        image_file: action.imf,
-        preview_URL: action.prv,
+        caption: action.caption,
+        blank: action.blank,
+        loaded: true,
       };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);

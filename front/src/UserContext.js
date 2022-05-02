@@ -1,20 +1,17 @@
 import React, { createContext, useContext, useReducer } from 'react';
-
-const user = [
-  {
-    account: '',
-    email: '',
-    images: [],
-    name: '',
-    password: '',
-    result: false,
-  },
-];
+// 0: false, 1:true
+const user = {
+  account: '',
+  email: '',
+  images: [],
+  name: '',
+  password: '',
+  result: 0,
+};
 
 function userReducer(state, action) {
   switch (action.type) {
     case 'LOGIN':
-      console.log(action.data);
       const member = action.data.member.result;
       const result = action.data.result;
       return {
@@ -24,7 +21,7 @@ function userReducer(state, action) {
         images: member.images,
         name: member.name,
         password: member.password,
-        result: result,
+        result: result ? 1 : 0,
       };
     case 'LOGOUT':
       return {
@@ -34,7 +31,7 @@ function userReducer(state, action) {
         images: [],
         name: '',
         password: '',
-        result: false,
+        result: 0,
       };
   }
 }

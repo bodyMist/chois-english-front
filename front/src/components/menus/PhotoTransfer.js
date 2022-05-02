@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { Button, Spin } from 'antd';
 import { useTransferDispatch, useTransferState } from '../../TransferContext';
+// import 'antd/dist/antd.css';
 
 // 렌더링 여러번 되는 문제 해결 필요함.
 const UploaderWrapper = styled.div`
@@ -20,29 +21,22 @@ const UploaderWrapper = styled.div`
       object-fit: contain;
     }
     .img-spinner {
+      margin-top: 250px;
       width: 500px;
-      height: 500px;
+      height: 250px;
     }
   }
   .upload-button {
+    margin-top: 10px;
     button {
       margin: 0 5px;
     }
   }
 `;
 
-const PhotoTransfer = (props) => {
+const PhotoTransfer = () => {
   const image = useTransferState();
   const dispatch = useTransferDispatch();
-  // console.log(image);
-  // console.log(props);
-
-  // const [image, setImage] = useState({
-  //   image_file: '',
-  //   preview_URL: 'img/default_image.png',
-  // });
-
-  // const [loaded, setLoaded] = useState(false);
 
   let inputRef;
 
@@ -51,44 +45,42 @@ const PhotoTransfer = (props) => {
     const fileReader = new FileReader();
 
     if (e.target.files[0]) {
+      dispatch({ type: 'LOADING' });
       fileReader.readAsDataURL(e.target.files[0]);
     }
+
     fileReader.onload = () => {
-      // setImage({
-      //   image_file: e.target.files[0],
-      //   preview_URL: fileReader.result,
-      // });
       const imf = e.target.files[0];
       const prv = fileReader.result;
-      console.log(imf);
-      console.log(prv); //base64 code
       dispatch({ type: 'SAVE', imf, prv });
     };
   };
 
   const deleteImage = () => {
-    // setImage({
-    //   image_file: '',
-    //   preview_URL: 'img/default_image.png',
-    // });
     dispatch({ type: 'DELETE' });
   };
 
   const sendImageToServer = async () => {
+    console.log(image.preview_URL);
     if (image.image_file) {
       const formData = new FormData();
       formData.append('file', image.image_file);
-      await axios.post('/api/image/upload', formData);
+      console.log(formData.get('file'));
+      await axios
+        .post('http://210.91.148.88:3000/image/saveImage', formData)
+        .then((res) => {
+          // const data = res.data;
+          // const blank = data.blank;
+          // const caption = data.caption;
+          // dispatch({ type: 'SENDTOSERVER', blank, caption });
+          console.log(res);
+        });
+
       alert('서버에 등록이 완료되었습니다');
-      // setImage({
-      //   image_file: '',
-      //   preview_URL: 'img/default_image.png',
-      // });
     } else {
       alert('사진을 등록하세요!');
     }
   };
-
   return (
     <UploaderWrapper>
       <input

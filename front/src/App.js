@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import './App.css';
 import PhotoTransfer from './components/menus/PhotoTransfer';
 import Main from './components/Main';
@@ -12,6 +12,7 @@ import Login from './components/Nav/Login/Login';
 import Register from './components/Nav/Login/Register';
 import { TransferProvider } from './TransferContext';
 import { UserProvider } from './UserContext';
+import UserPage from './components/UserPage';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -41,6 +42,7 @@ function App() {
           <Route path="/sentencequiz" element={<SentenceQuiz />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/userpage" element={<UserPage />} />
         </Routes>
       </AppProvider>
     </BrowserRouter>
