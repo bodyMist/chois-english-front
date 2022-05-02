@@ -59,13 +59,13 @@ function MainBoard() {
     <ScrollContainer>
       <ScrollPage page={0}>
         <Animator animation={batch(Fade(), MoveOut(0, 0))}>
-          <h2>Let me show you scroll animation</h2>
+          <h2>기범이의 영어교실</h2>
         </Animator>
       </ScrollPage>
 
       <ScrollPage page={1}>
         <Animator animation={ZoomInScrollOut}>
-          <h2>I'm, FadeUpScrollOut</h2>
+          <h2>방가와요</h2>
         </Animator>
       </ScrollPage>
     </ScrollContainer>

@@ -3,7 +3,7 @@ import React, { createContext, useContext, useReducer } from 'react';
 const Image = {
   image_file: '',
   preview_URL: 'img/default_image.png',
-  caption: "i'm foolish",
+  caption: 'I like chocolate',
   blank: '',
   loaded: false,
 };
@@ -19,7 +19,7 @@ function TransferReducer(state, action) {
         ...state,
         image_file: action.imf,
         preview_URL: action.prv,
-        loaded: false,
+        loaded: true,
       };
     case 'DELETE':
       return {
