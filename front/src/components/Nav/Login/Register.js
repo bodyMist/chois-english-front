@@ -133,13 +133,14 @@ function Register() {
     },
     [password]
   );
+  //210.91.148.88
   const checkAccountDuplicate = useCallback(async () => {
     await axios
       .get(`http://210.91.148.88:3000/member/checkAccount/${account}`)
       .then((res) => {
         if (!res.data.result) {
           alert('중복된 계정 입니다.');
-        }
+        } else alert('사용 가능한 계정 입니다.');
         setIsAccount(res.data.result);
       });
   }, []);
@@ -156,8 +157,8 @@ function Register() {
         console.log(data);
         if (data) {
           alert('회원가입이 완료되었습니다.');
-          Navigate('/Login', { replace: true });
         }
+        Navigate('/Login', { replace: true });
       })
       .catch((error) => {
         console.log(error);
