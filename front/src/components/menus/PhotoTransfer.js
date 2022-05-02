@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Button, Spin } from 'antd';
@@ -74,6 +74,9 @@ const PhotoTransfer = () => {
           // const caption = data.caption;
           // dispatch({ type: 'SENDTOSERVER', blank, caption });
           console.log(res);
+        })
+        .catch((error) => {
+          throw new Error(error);
         });
 
       alert('서버에 등록이 완료되었습니다');
@@ -92,7 +95,7 @@ const PhotoTransfer = () => {
       />
       <div className="img-wrapper">
         {image.loaded === false || image.loaded === true ? (
-          <img src={image.preview_URL} />
+          <img src={image.preview_URL} alt="" />
         ) : (
           <Spin className="img-spinner" tip="이미지 불러오는중" />
         )}

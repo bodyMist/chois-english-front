@@ -6,13 +6,11 @@ import {
   Fade,
   FadeIn,
   Move,
-  MoveIn,
   MoveOut,
   ScrollContainer,
   ScrollPage,
   Sticky,
   StickyIn,
-  Zoom,
   ZoomIn,
 } from 'react-scroll-motion';
 

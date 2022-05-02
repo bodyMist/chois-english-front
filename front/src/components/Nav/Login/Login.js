@@ -58,7 +58,7 @@ function Login() {
       .catch((error) => {
         throw new Error(error);
       });
-  }, [account]);
+  }, [account, navigate, userDispatch]);
 
   return (
     <LoginForm>

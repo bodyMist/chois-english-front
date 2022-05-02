@@ -1,10 +1,7 @@
-import { Form } from 'antd';
-import { responsiveArray } from 'antd/lib/_util/responsiveObserve';
 import axios from 'axios';
 import React, { useCallback, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useUserDispatch } from '../../../UserContext';
 import { SubmitBtn, TextInput } from '../../Styles';
 
 const RegistForm = styled.div`
@@ -118,7 +115,7 @@ function Register() {
       setPasswordMessage('안전한 비밀번호 입니다.');
       setIsPassword(true);
     }
-  });
+  }, []);
   const onChangePasswordConfirm = useCallback(
     (e) => {
       const passwordConfirmCurrent = e.target.value;
@@ -143,7 +140,7 @@ function Register() {
         } else alert('사용 가능한 계정 입니다.');
         setIsAccount(res.data.result);
       });
-  }, []);
+  }, [account]);
   const onSubmitRegist = useCallback(async () => {
     await axios
       .post('http://210.91.148.88:3000/member/join', {
