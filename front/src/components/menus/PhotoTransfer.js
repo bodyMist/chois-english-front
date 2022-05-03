@@ -38,9 +38,11 @@ const PhotoTransfer = () => {
   const image = useTransferState();
   const dispatch = useTransferDispatch();
 
+  console.log(image);
   let inputRef;
 
   const saveImage = (e) => {
+    console.log(image);
     e.preventDefault();
     const fileReader = new FileReader();
 
@@ -53,6 +55,7 @@ const PhotoTransfer = () => {
       const imf = e.target.files[0];
       const prv = fileReader.result;
       dispatch({ type: 'SAVE', imf, prv });
+      e.target.value = '';
     };
   };
 
@@ -61,7 +64,6 @@ const PhotoTransfer = () => {
   };
 
   const sendImageToServer = async () => {
-    console.log(image.preview_URL);
     if (image.image_file) {
       const formData = new FormData();
       formData.append('file', image.image_file);
