@@ -47,12 +47,15 @@ function Login() {
       })
       .then((res) => {
         const data = res.data;
-        if (data) {
+        console.log(data.result);
+        if (data.result) {
           localStorage.setItem('userData', JSON.stringify(data));
           console.log(JSON.parse(localStorage.getItem('userData')));
           console.log(data);
           userDispatch({ type: 'LOGIN', data });
           navigate('/', { replace: true });
+        } else {
+          alert('아이디와 비밀번호를 확인해주세요.');
         }
       })
       .catch((error) => {
