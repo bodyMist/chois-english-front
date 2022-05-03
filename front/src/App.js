@@ -31,6 +31,7 @@ const AppProvider = ({ contexts, children }) =>
   );
 
 function App() {
+  // localStorage.clear();
   return (
     <BrowserRouter>
       <AppProvider contexts={[MenuProvider, TransferProvider, UserProvider]}>
