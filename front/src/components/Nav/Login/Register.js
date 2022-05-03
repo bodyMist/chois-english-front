@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useCallback, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { SubmitBtn, TextInput } from '../../Styles';
 
@@ -58,6 +58,7 @@ const CheckButton = styled.button`
 `;
 
 function Register() {
+  let navigate = useNavigate();
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -155,12 +156,12 @@ function Register() {
         if (data) {
           alert('회원가입이 완료되었습니다.');
         }
-        Navigate('/Login', { replace: true });
+        navigate('/Login', { replace: true });
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [name, account, password, email]);
+  }, [name, account, password, email, navigate]);
   return (
     <RegistForm>
       <h2>회원가입</h2>
