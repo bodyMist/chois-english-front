@@ -15,7 +15,7 @@ function Header() {
   return (
     <HeaderContainer>
       <Logo />
-      <MenuList />
+      {/* <MenuList /> */}
     </HeaderContainer>
   );
 }

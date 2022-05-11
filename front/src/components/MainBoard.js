@@ -13,6 +13,7 @@ import {
   StickyIn,
   ZoomIn,
 } from 'react-scroll-motion';
+import { StyledLink } from './Styles';
 
 const ExpBlock = styled.div`
   /* margin-top: 10px;
@@ -54,19 +55,22 @@ const FadeUp = batch(Fade(), Sticky(), Move());
 
 function MainBoard() {
   return (
-    <ScrollContainer>
-      <ScrollPage page={0}>
-        <Animator animation={batch(Fade(), MoveOut(0, 0))}>
-          <h2>기범이의 영어교실</h2>
-        </Animator>
-      </ScrollPage>
+    // <ScrollContainer>
+    //   <ScrollPage page={0}>
+    //     <Animator animation={batch(Fade(), MoveOut(0, 0))}>
+    //       <h2>기범이의 영어교실</h2>
+    //     </Animator>
+    //   </ScrollPage>
 
-      <ScrollPage page={1}>
-        <Animator animation={ZoomInScrollOut}>
-          <h2>방가와요</h2>
-        </Animator>
-      </ScrollPage>
-    </ScrollContainer>
+    //   <ScrollPage page={1}>
+    //     <Animator animation={ZoomInScrollOut}>
+    //       <h2>방가와요</h2>
+    //     </Animator>
+    //   </ScrollPage>
+    // </ScrollContainer>
+    <>
+      <StyledLink to="/quiz">문제풀기</StyledLink>
+    </>
   );
 }
 

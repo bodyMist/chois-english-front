@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { Button, Spin } from 'antd';
+import Modal from '../Modal';
+import { Button, Form, Spin } from 'antd';
 import { useTransferDispatch, useTransferState } from '../../TransferContext';
+import { useMenuState } from '../../MenuContext';
 // import 'antd/dist/antd.css';
 
 // 렌더링 여러번 되는 문제 해결 필요함.
@@ -37,8 +39,32 @@ const UploaderWrapper = styled.div`
 const PhotoTransfer = () => {
   const image = useTransferState();
   const dispatch = useTransferDispatch();
+  const [modalOepn, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const closeModalYes = useCallback(async () => {
+    setModalOpen(false);
+    const formData = new FormData();
+    formData.append('file', image.image_file);
+    // await axios
+    //   .post('http://210.91.148.88:3000/image/saveImage', formData)
+    //   .then((res) => {})
+    //   .catch((error) => {
+    //     throw new Error(error);
+    //   });
 
-  console.log(image);
+    console.log('이미지를 저장합니다.');
+    await localCaption();
+  }, [image]);
+  const closeModalNo = useCallback(async () => {
+    setModalOpen(false);
+    console.log('이미지를 저장하지 않습니다.');
+    await localCaption();
+  }, []);
   let inputRef;
 
   const saveImage = (e) => {
@@ -63,29 +89,11 @@ const PhotoTransfer = () => {
     dispatch({ type: 'DELETE' });
   };
 
-  const sendImageToServer = async () => {
-    if (image.image_file) {
-      const formData = new FormData();
-      formData.append('file', image.image_file);
-      console.log(formData.get('file'));
-      await axios
-        .post('http://210.91.148.88:3000/image/saveImage', formData)
-        .then((res) => {
-          // const data = res.data;
-          // const blank = data.blank;
-          // const caption = data.caption;
-          // dispatch({ type: 'SENDTOSERVER', blank, caption });
-          console.log(res);
-        })
-        .catch((error) => {
-          throw new Error(error);
-        });
+  const localCaption = useCallback(async () => {
+    console.log('문제 생성 완료');
+    // await axios.post('http://210.91.148.88:3000/image/localCaption');
+  });
 
-      alert('서버에 등록이 완료되었습니다');
-    } else {
-      alert('사진을 등록하세요!');
-    }
-  };
   return (
     <UploaderWrapper>
       <input
@@ -110,10 +118,19 @@ const PhotoTransfer = () => {
         <Button type="primary" onClick={deleteImage} danger>
           이미지 삭제
         </Button>
-        <Button type="ghost" onClick={sendImageToServer}>
-          이미지 업로드
+        <Button type="ghost" onClick={openModal}>
+          문제 생성
         </Button>
       </div>
+      <Modal
+        open={modalOepn}
+        close={closeModal}
+        closeYes={closeModalYes}
+        closeNo={closeModalNo}
+        header="알람"
+      >
+        이미지를 서버에 저장하시겠습니까?
+      </Modal>
     </UploaderWrapper>
   );
 };

@@ -29,6 +29,11 @@ const Item = styled.li`
   border-radius: 8px;
 `;
 
+const StyledBtn = styled.button`
+  background-color: transparent;
+  border: none;
+  color: ${(props) => (props.Selected === true ? 'white' : 'black')};
+`;
 function MenuList() {
   const menus = useMenuState();
   const dispatch = useMenuDispatch();
@@ -41,12 +46,12 @@ function MenuList() {
               key={index}
               className={menu.focused === true ? 'focused' : ''}
             >
-              <StyledLink
-                to={menu.link}
+              <StyledBtn
                 onClick={() => dispatch({ type: 'TOGGLE', index })}
+                Selected={menu.focused}
               >
                 {menu.name}
-              </StyledLink>
+              </StyledBtn>
             </Item>
           );
         })}
