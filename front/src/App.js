@@ -14,6 +14,7 @@ import { TransferProvider } from './TransferContext';
 import { UserProvider } from './UserContext';
 import UserPage from './components/UserPage';
 import Template from './components/Template';
+import Quiz from './components/menus/Quiz';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -46,6 +47,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/userpage" element={<UserPage />} />
+          <Route path="/quiz" element={<Quiz />} />
         </Routes>
         {/* </Template> */}
       </AppProvider>
