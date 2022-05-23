@@ -51,19 +51,6 @@ function UserPage() {
         });
     }
   });
-  // useEffect(async () => {
-  //   const queryParams = userState.images
-  //     .map((image) => 'id=' + image)
-  //     .join('&');
-  //   console.log(queryParams);
-  //   await axios
-  //     .get(`http://${url}:3000/image/getMemberImages?${queryParams}`)
-  //     .then((res) => {
-  //       console.log(res);
-  //       const data = res.data.images;
-  //       setImages({ ...images, ...data });
-  //     });
-  // }, []);
   const value = Object.values(images);
   return (
     <Wrapper>
