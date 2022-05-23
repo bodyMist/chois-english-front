@@ -37,11 +37,12 @@ function Nav() {
   useEffect(() => {
     if (typeof window !== 'undefined' && userState.result === 0) {
       const data = JSON.parse(localStorage.getItem('userData'));
-      // console.log(data);
+      console.log(data);
       if (data !== null) {
         userDispatch({ type: 'LOGIN', data });
       }
     }
+    // console.log(userState.id);
   }, [userState, userDispatch]);
   let isLogin = userState.result;
   let name = userState.name;

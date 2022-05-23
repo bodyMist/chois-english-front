@@ -131,10 +131,11 @@ function Register() {
     },
     [password]
   );
+  const url = '210.91.148.88';
   //210.91.148.88
   const checkAccountDuplicate = useCallback(async () => {
     await axios
-      .get(`http://210.91.148.88:3000/member/checkAccount/${account}`)
+      .get(`http://${url}:3000/member/checkAccount/${account}`)
       .then((res) => {
         if (!res.data.result) {
           alert('중복된 계정 입니다.');
@@ -144,7 +145,7 @@ function Register() {
   }, [account]);
   const onSubmitRegist = useCallback(async () => {
     await axios
-      .post('http://210.91.148.88:3000/member/join', {
+      .post(`http://${url}:3000/member/join`, {
         name: name,
         account: account,
         password: password,
