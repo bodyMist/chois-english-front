@@ -19,6 +19,11 @@ export const TextInput = styled.input`
   border: none;
   width: 260px;
   margin-bottom: 10px;
+  &:focus {
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 5px #9ecaed;
+  }
 `;
 export const SubmitForm = styled.div`
   display: flex;
