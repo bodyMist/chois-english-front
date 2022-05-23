@@ -51,7 +51,6 @@ function UserPage() {
         });
     }
   });
-
   const value = Object.values(images);
   return (
     <Wrapper>
