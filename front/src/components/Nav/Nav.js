@@ -29,6 +29,7 @@ function Nav() {
   const menuDispatch = useMenuDispatch();
   const userState = useUserState();
   const userDispatch = useUserDispatch();
+  // localStorage.clear();
   const logout = () => {
     localStorage.clear();
     userDispatch({ type: 'LOGOUT' });

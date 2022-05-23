@@ -3,8 +3,8 @@ import React, { createContext, useContext, useReducer } from 'react';
 const Image = {
   image_file: '',
   preview_URL: 'img/default_image.png',
-  caption: 'I like chocolate',
-  blank: 'like',
+  caption: 'Kumoh is better than Seoul',
+  blank: 'Seoul',
   loaded: false,
   captioned: true,
 };

@@ -5,7 +5,7 @@ import Modal from '../Modal';
 import { Button, Form, Spin } from 'antd';
 import { useTransferDispatch, useTransferState } from '../../TransferContext';
 import { useMenuState } from '../../MenuContext';
-import { useUserState } from '../../UserContext';
+import { useUserDispatch, useUserState } from '../../UserContext';
 import { TextInput } from '../Styles';
 // import 'antd/dist/antd.css';
 
@@ -55,6 +55,13 @@ const Blank = styled.input`
     border-color: #9ecaed;
     box-shadow: 0 0 5px #9ecaed;
   }
+  &:focus::placeholder {
+    color: transparent;
+  }
+`;
+const Word = styled.span`
+  margin-right: 0.2rem;
+  margin-left: 0.2rem;
 `;
 const url = '210.91.148.88';
 //210.91.148.88
@@ -62,6 +69,7 @@ const PhotoTransfer = () => {
   const image = useTransferState();
   const dispatch = useTransferDispatch();
   const user = useUserState();
+  const userDispatch = useUserDispatch();
   const [modalOepn, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
@@ -77,7 +85,9 @@ const PhotoTransfer = () => {
     await axios
       .post(`http://${url}:3000/image/saveImage`, formData)
       .then((res) => {
-        console.log(res);
+        const data = res.data;
+        localStorage.setItem('userData', JSON.stringify(data));
+        userDispatch({ type: 'LOGIN', data });
       })
       .catch((error) => {
         throw new Error(error);
@@ -168,7 +178,7 @@ const PhotoTransfer = () => {
               a == image.blank ? (
                 <Blank width={a.length} placeholder="?"></Blank>
               ) : (
-                <span>{a}</span>
+                <Word>{a}</Word>
               )
             )}
         </div>

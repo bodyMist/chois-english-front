@@ -12,7 +12,7 @@ const user = {
 function userReducer(state, action) {
   switch (action.type) {
     case 'LOGIN':
-      const member = action.data.member.result;
+      const member = action.data.member;
       const result = action.data.result;
       return {
         ...state,
@@ -33,6 +33,16 @@ function userReducer(state, action) {
         password: '',
         result: 0,
       };
+    // case 'UPDATE':
+    //   return {
+    //     ...state,
+    //     id: member._id,
+    //     email: member.email,
+    //     images: member.images,
+    //     name: member.name,
+    //     password: member.password,
+    //     result: result ? 1 : 0,
+    //   };
   }
 }
 
