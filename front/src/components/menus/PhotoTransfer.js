@@ -5,6 +5,8 @@ import Modal from '../Modal';
 import { Button, Form, Spin } from 'antd';
 import { useTransferDispatch, useTransferState } from '../../TransferContext';
 import { useMenuState } from '../../MenuContext';
+import { useUserDispatch, useUserState } from '../../UserContext';
+import { TextInput } from '../Styles';
 // import 'antd/dist/antd.css';
 
 // 렌더링 여러번 되는 문제 해결 필요함.
@@ -35,10 +37,39 @@ const UploaderWrapper = styled.div`
     }
   }
 `;
-
+const AnswerBox = styled.div`
+  margin-top: 1rem;
+  display: ${(props) => (props.captioned ? 'flex' : 'none')};
+  flex-direction: column;
+  align-items: center;
+`;
+const Blank = styled.input`
+  width: ${(props) => props.width * 10 + 'px'};
+  margin-right: 0.7rem;
+  margin-left: 0.7rem;
+  height: 1rem;
+  border: none;
+  text-align: center;
+  &:focus {
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 5px #9ecaed;
+  }
+  &:focus::placeholder {
+    color: transparent;
+  }
+`;
+const Word = styled.span`
+  margin-right: 0.2rem;
+  margin-left: 0.2rem;
+`;
+const url = '210.91.148.88';
+//210.91.148.88
 const PhotoTransfer = () => {
   const image = useTransferState();
   const dispatch = useTransferDispatch();
+  const user = useUserState();
+  const userDispatch = useUserDispatch();
   const [modalOepn, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
@@ -50,12 +81,17 @@ const PhotoTransfer = () => {
     setModalOpen(false);
     const formData = new FormData();
     formData.append('file', image.image_file);
-    // await axios
-    //   .post('http://210.91.148.88:3000/image/saveImage', formData)
-    //   .then((res) => {})
-    //   .catch((error) => {
-    //     throw new Error(error);
-    //   });
+    formData.append('memberId', user.id);
+    await axios
+      .post(`http://${url}:3000/image/saveImage`, formData)
+      .then((res) => {
+        const data = res.data;
+        localStorage.setItem('userData', JSON.stringify(data));
+        userDispatch({ type: 'LOGIN', data });
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
 
     console.log('이미지를 저장합니다.');
     await localCaption();
@@ -94,6 +130,9 @@ const PhotoTransfer = () => {
     // await axios.post('http://210.91.148.88:3000/image/localCaption');
   });
 
+  const test = () => {
+    console.log('성공!!!');
+  };
   return (
     <UploaderWrapper>
       <input
@@ -131,6 +170,19 @@ const PhotoTransfer = () => {
       >
         이미지를 서버에 저장하시겠습니까?
       </Modal>
+      <AnswerBox captioned={image.captioned}>
+        <div>
+          {image.caption
+            .split(' ')
+            .map((a) =>
+              a == image.blank ? (
+                <Blank width={a.length} placeholder="?"></Blank>
+              ) : (
+                <Word>{a}</Word>
+              )
+            )}
+        </div>
+      </AnswerBox>
     </UploaderWrapper>
   );
 };

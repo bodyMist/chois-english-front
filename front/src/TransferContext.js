@@ -3,9 +3,10 @@ import React, { createContext, useContext, useReducer } from 'react';
 const Image = {
   image_file: '',
   preview_URL: 'img/default_image.png',
-  caption: 'I like chocolate',
-  blank: '',
+  caption: 'Kumoh is better than Seoul',
+  blank: 'Seoul',
   loaded: false,
+  captioned: true,
 };
 function TransferReducer(state, action) {
   switch (action.type) {
@@ -35,6 +36,7 @@ function TransferReducer(state, action) {
         caption: action.caption,
         blank: action.blank,
         loaded: true,
+        captioned: true,
       };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);

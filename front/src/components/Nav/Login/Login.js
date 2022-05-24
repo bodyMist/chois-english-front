@@ -38,20 +38,19 @@ function Login() {
     },
     [account]
   );
+  const url = '210.91.148.88';
   //210.91.148.88
   const onSubmitAccount = useCallback(async () => {
     await axios
-      .post('http://210.91.148.88:3000/member/login', {
+      .post(`http://${url}:3000/member/login`, {
         account: account.account,
         password: account.password,
       })
       .then((res) => {
         const data = res.data;
-        console.log(data.result);
         if (data.result) {
           localStorage.setItem('userData', JSON.stringify(data));
           console.log(JSON.parse(localStorage.getItem('userData')));
-          console.log(data);
           userDispatch({ type: 'LOGIN', data });
           navigate('/', { replace: true });
         } else {
