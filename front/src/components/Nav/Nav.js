@@ -38,7 +38,6 @@ function Nav() {
   useEffect(() => {
     if (typeof window !== 'undefined' && userState.result === 0) {
       const data = JSON.parse(localStorage.getItem('userData'));
-      console.log(data);
       if (data !== null) {
         userDispatch({ type: 'LOGIN', data });
       }

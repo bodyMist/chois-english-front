@@ -148,9 +148,8 @@ const PhotoTransfer = () => {
     menuState.map((menu) => {
       if (menu.focused == true) setType(menu.type);
     });
-    const test = type === 'word' ? image.blank : image.caption;
-    setHint(test);
-    console.log(hint);
+    const hintparse = type === 'word' ? image.blank : image.caption;
+    setHint(hintparse);
     dispatch({ type: 'HINTSET', hint });
   }, [menuState, type, hint]);
 
@@ -182,7 +181,6 @@ const PhotoTransfer = () => {
       });
 
     const imageId = localStorage.getItem('imageId');
-    console.log(imageId);
     // localStorage.removeItem('imageId');
     if (imageId != null) {
       await serverCaption(imageId);
@@ -195,13 +193,10 @@ const PhotoTransfer = () => {
     const imageId = localStorage.getItem('imageId');
     // localStorage.removeItem('imageId');
     if (imageId != null) {
-      console.log('서버캡션');
       await serverCaption(imageId);
     } else {
-      console.log('로컬캡션');
       await localCaption();
     }
-    console.log('이미지를 저장하지 않습니다.');
   }, [image]);
   let inputRef;
   const notLogin = useCallback(async () => {
@@ -217,7 +212,6 @@ const PhotoTransfer = () => {
     const fileReader = new FileReader();
 
     if (e.target.files[0]) {
-      console.log(e.target.files[0]);
       dispatch({ type: 'LOADING' });
       fileReader.readAsDataURL(e.target.files[0]);
     }
@@ -239,18 +233,15 @@ const PhotoTransfer = () => {
     enterLoading(1);
     const formData = new FormData();
     formData.append('file', image.image_file);
-    console.log(image.image_file);
     await axios
       .post(`http://${url}:3000/image/localCaption`, formData)
       .then((res) => {
-        console.log(res);
         const blank = res.data.blank;
         const caption = res.data.caption;
-        const hint = type === 'wrod' ? blank : caption;
+        const hint = type === 'word' ? blank : caption;
         dispatch({ type: 'RESULTSET', blank, caption, hint });
       });
     endLoading(1);
-    console.log('문제 생성 완료');
   });
 
   const serverCaption = useCallback(async (imgaeId) => {
@@ -260,10 +251,10 @@ const PhotoTransfer = () => {
         id: imgaeId,
       })
       .then((res) => {
-        console.log(res);
         const blank = res.data.blank;
         const caption = res.data.caption;
-        dispatch({ type: 'RESULTSET', blank, caption });
+        const hint = type === 'word' ? blank : caption;
+        dispatch({ type: 'RESULTSET', blank, caption, hint });
       });
     endLoading(1);
   });
@@ -276,15 +267,14 @@ const PhotoTransfer = () => {
       const caption = data.caption;
       const imf = data.image.imageName;
       const prv = data.image.url;
-
+      const hint = type === 'word' ? blank : caption;
       dispatch({ type: 'SAVE', imf, prv });
-      dispatch({ type: 'RESULTSET', blank, caption });
+      dispatch({ type: 'RESULTSET', blank, caption, hint });
     });
     endLoading(2);
   });
   const submitAnswer = async () => {
     const blank = type === 'sentence' ? image.caption : image.blank;
-    console.log(blank);
     await axios
       .post(`http://${url}:3000/image/answer/${type}`, {
         user_input: answer,
@@ -292,16 +282,12 @@ const PhotoTransfer = () => {
         blank: blank,
       })
       .then((res) => {
-        console.log(res);
         const score =
           type === 'word'
             ? res.data.word_similarity
             : res.data.sentence_similarity;
         dispatch({ type: 'SCORESET', score });
       });
-  };
-  const test = () => {
-    console.log(image.image_file);
   };
   return (
     <UploaderWrapper>
