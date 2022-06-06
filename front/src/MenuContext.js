@@ -2,8 +2,8 @@ import React, { createContext, useContext, useReducer } from 'react';
 
 const menuArr = [
   // { id: 0, name: '사진변환', link: '/phototransfer', focused: false },
-  { id: 0, name: '단어퀴즈', link: '/vocaquiz', focused: false },
-  { id: 1, name: '문장퀴즈', link: '/sentencequiz', focused: false },
+  { id: 0, name: '단어퀴즈', type: 'word', focused: false },
+  { id: 1, name: '문장퀴즈', type: 'sentence', focused: false },
 ];
 
 function menuReducer(state, action) {
