@@ -51,10 +51,12 @@ const AnswerBox = styled.div`
   }
 `;
 const Blank = styled.input`
-  width: ${(props) => props.width * 10 + 'px'};
+  font-size: 1.2rem;
+  color: red;
+  width: ${(props) => props.width * 14 + 'px'};
   margin-right: 0.4rem;
   margin-left: 0.4rem;
-  height: 1rem;
+  height: 1.4rem;
   border: none;
   text-align: center;
   &:focus {
@@ -66,7 +68,46 @@ const Blank = styled.input`
     color: transparent;
   }
 `;
+const HintContainer = styled.div`
+  width: ${(props) => props.width * 14 + 'px'};
+  height: 25px;
+  margin: auto;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  perspective: 100rem;
+  .front {
+    width: ${(props) => props.width * 14 + 'px'};
+    position: absolute;
+    background: white;
+    transform: rotateY(0deg);
+  }
+  .back {
+    width: ${(props) => props.width * 14 + 'px'};
+    background: #1890ff;
+    color: white;
+    transform: rotateY(-180deg);
+  }
+  &:hover .front {
+    transform: rotateY(180deg);
+  }
+  &:hover .back {
+    transform: rotateY(0deg);
+  }
+`;
+const Hint = styled.div`
+  width: 200px;
+  height: 25px;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-perspective: 0;
+  -webkit-transition: 1s;
+  backface-visibility: hidden;
+  visibility: visible;
+  transition: 1s;
+`;
 const Word = styled.span`
+  font-size: 1.2rem;
   margin-right: 0.2rem;
   margin-left: 0.2rem;
 `;
@@ -85,21 +126,21 @@ const PhotoTransfer = () => {
   const [modalOepn, setModalOpen] = useState(false);
   const [answer, setAnswer] = useState('');
   const [type, setType] = useState('');
-  const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState([]);
+  const [hint, setHint] = useState('');
   const menuState = useMenuState();
 
-  const enterLoading = () => {
+  const enterLoading = (index) => {
     setLoading((prevLoading) => {
-      let newLoading = prevLoading;
-      newLoading = true;
+      let newLoading = [...prevLoading];
+      newLoading[index] = true;
       return newLoading;
     });
   };
-  const endLoading = () => {
+  const endLoading = (index) => {
     setLoading((prevLoading) => {
-      let newLoading = prevLoading;
-      newLoading = false;
+      let newLoading = [prevLoading];
+      newLoading[index] = false;
       return newLoading;
     });
   };
@@ -107,7 +148,11 @@ const PhotoTransfer = () => {
     menuState.map((menu) => {
       if (menu.focused == true) setType(menu.type);
     });
-  }, [menuState, type]);
+    const test = type === 'word' ? image.blank : image.caption;
+    setHint(test);
+    console.log(hint);
+    dispatch({ type: 'HINTSET', hint });
+  }, [menuState, type, hint]);
 
   const setUserAnswer = (e) => {
     setAnswer(e.target.value);
@@ -122,7 +167,6 @@ const PhotoTransfer = () => {
   };
   const closeModalYes = useCallback(async () => {
     setModalOpen(false);
-    enterLoading();
     const formData = new FormData();
     formData.append('file', image.image_file);
     formData.append('memberId', user.id);
@@ -148,7 +192,6 @@ const PhotoTransfer = () => {
   }, [image]);
   const closeModalNo = useCallback(async () => {
     setModalOpen(false);
-    enterLoading();
     const imageId = localStorage.getItem('imageId');
     // localStorage.removeItem('imageId');
     if (imageId != null) {
@@ -161,7 +204,14 @@ const PhotoTransfer = () => {
     console.log('이미지를 저장하지 않습니다.');
   }, [image]);
   let inputRef;
-
+  const notLogin = useCallback(async () => {
+    const imageId = localStorage.getItem('imageId');
+    if (imageId != null) {
+      await serverCaption(imageId);
+    } else {
+      await localCaption();
+    }
+  });
   const saveImage = (e) => {
     e.preventDefault();
     const fileReader = new FileReader();
@@ -186,6 +236,7 @@ const PhotoTransfer = () => {
   };
 
   const localCaption = useCallback(async () => {
+    enterLoading(1);
     const formData = new FormData();
     formData.append('file', image.image_file);
     console.log(image.image_file);
@@ -195,13 +246,15 @@ const PhotoTransfer = () => {
         console.log(res);
         const blank = res.data.blank;
         const caption = res.data.caption;
-        dispatch({ type: 'RESULTSET', blank, caption });
+        const hint = type === 'wrod' ? blank : caption;
+        dispatch({ type: 'RESULTSET', blank, caption, hint });
       });
-    endLoading();
+    endLoading(1);
     console.log('문제 생성 완료');
   });
 
   const serverCaption = useCallback(async (imgaeId) => {
+    enterLoading(1);
     await axios
       .post(`http://${url}:3000/image/serverCaption`, {
         id: imgaeId,
@@ -212,17 +265,39 @@ const PhotoTransfer = () => {
         const caption = res.data.caption;
         dispatch({ type: 'RESULTSET', blank, caption });
       });
-    endLoading();
+    endLoading(1);
+  });
+  const randomQuiz = useCallback(async () => {
+    enterLoading(2);
+    await axios.get(`http://${url}:3000/image/random`).then((res) => {
+      console.log(res);
+      const data = res.data;
+      const blank = data.blank;
+      const caption = data.caption;
+      const imf = data.image.imageName;
+      const prv = data.image.url;
+
+      dispatch({ type: 'SAVE', imf, prv });
+      dispatch({ type: 'RESULTSET', blank, caption });
+    });
+    endLoading(2);
   });
   const submitAnswer = async () => {
+    const blank = type === 'sentence' ? image.caption : image.blank;
+    console.log(blank);
     await axios
       .post(`http://${url}:3000/image/answer/${type}`, {
         user_input: answer,
         answer: image.caption,
-        blank: image.blank,
+        blank: blank,
       })
       .then((res) => {
         console.log(res);
+        const score =
+          type === 'word'
+            ? res.data.word_similarity
+            : res.data.sentence_similarity;
+        dispatch({ type: 'SCORESET', score });
       });
   };
   const test = () => {
@@ -252,8 +327,15 @@ const PhotoTransfer = () => {
         <Button type="primary" onClick={deleteImage} danger>
           이미지 삭제
         </Button>
-        <Button type="ghost" onClick={openModal} loading={loading}>
+        <Button
+          type="ghost"
+          onClick={user.result ? openModal : notLogin}
+          loading={loading[1]}
+        >
           문제 생성
+        </Button>
+        <Button type="ghost" onClick={randomQuiz} loading={loading[2]}>
+          랜덤 문제 생성
         </Button>
       </div>
       <Modal open={modalOepn} close={closeModal} header="알람">
@@ -290,9 +372,38 @@ const PhotoTransfer = () => {
             onChange={setUserAnswer}
           ></Blank>
         </div>
-        <Button type="ghost" onClick={submitAnswer}>
+        <Button
+          type="ghost"
+          onClick={submitAnswer}
+          style={{ marginTop: '10px' }}
+        >
           정답 제출
         </Button>
+        <div
+          style={{
+            marginTop: '10px',
+          }}
+        >
+          {image.score >= 0 && image.score < 0.62 ? (
+            <p>정답을 입력해주세요!</p>
+          ) : image.score > 0.62 && image.score < 0.71 ? (
+            <p>아쉬워요!</p>
+          ) : image.score > 0.71 && image.score < 0.9 ? (
+            <p>단어를 조금만 바꿔볼까요?</p>
+          ) : image.score > 0.9 && image.score < 0.96 ? (
+            <p>거의 다 왔어요!</p>
+          ) : (
+            <p>정답이에요!</p>
+          )}
+        </div>
+        <HintContainer width={image.hint.length}>
+          <Hint className="front">
+            <p>Hint</p>
+          </Hint>
+          <Hint className="back">
+            <p>{image.hint}</p>
+          </Hint>
+        </HintContainer>
       </AnswerBox>
     </UploaderWrapper>
   );

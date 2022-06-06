@@ -7,6 +7,8 @@ const Image = {
   blank: '',
   loaded: false,
   captioned: false,
+  score: 0,
+  hint: '',
 };
 function TransferReducer(state, action) {
   switch (action.type) {
@@ -37,6 +39,19 @@ function TransferReducer(state, action) {
         blank: action.blank,
         loaded: true,
         captioned: true,
+        hint: action.hint,
+        score: 0,
+      };
+    case 'SCORESET':
+      return {
+        ...state,
+        score: action.score,
+      };
+    case 'HINTSET':
+      return {
+        ...state,
+        hint: action.hint,
+        score: 0,
       };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
