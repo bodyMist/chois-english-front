@@ -23,13 +23,23 @@ function TransferReducer(state, action) {
         image_file: action.imf,
         preview_URL: action.prv,
         loaded: true,
+        captioned: false,
+        caption: '',
+        blank: '',
+        score: 0,
+        hint: '',
       };
     case 'DELETE':
       return {
         ...state,
         image_file: '',
         preview_URL: 'img/default_image.png',
+        captioned: false,
         loaded: false,
+        caption: '',
+        blank: '',
+        score: 0,
+        hint: '',
       };
     // 파일 전송 시퀸스에 맞게 수정필요함.
     case 'RESULTSET':
