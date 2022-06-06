@@ -3,10 +3,10 @@ import React, { createContext, useContext, useReducer } from 'react';
 const Image = {
   image_file: '',
   preview_URL: 'img/default_image.png',
-  caption: 'Kumoh is better than Seoul',
-  blank: 'Seoul',
+  caption: '',
+  blank: '',
   loaded: false,
-  captioned: true,
+  captioned: false,
 };
 function TransferReducer(state, action) {
   switch (action.type) {
@@ -30,7 +30,7 @@ function TransferReducer(state, action) {
         loaded: false,
       };
     // 파일 전송 시퀸스에 맞게 수정필요함.
-    case 'SENDTOSERVER':
+    case 'RESULTSET':
       return {
         ...state,
         caption: action.caption,
