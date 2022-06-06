@@ -83,9 +83,7 @@ function UserPage() {
   const userState = useUserState();
   const userDispatch = useUserDispatch();
   const [images, setImages] = useState([]);
-  const navigate = useNavigate();
   useEffect(async () => {
-    console.log(userState.result);
     if (typeof window !== 'undefined' && userState.result === 0) {
       const data = JSON.parse(localStorage.getItem('userData'));
       userDispatch({ type: 'LOGIN', data });
@@ -102,7 +100,6 @@ function UserPage() {
         .get(`http://${url}:3000/image/getMemberImages?${queryParams}`)
         .then((res) => {
           const data = res.data.images;
-          console.log(data);
           setImages({ ...images, ...data });
         });
     }
@@ -114,7 +111,6 @@ function UserPage() {
           `http://${url}:3000/image/deleteImage?memberId=${userState.id}&imageId=${imageId}`
         )
         .then((res) => {
-          console.log(res);
           window.location.replace('/userPage');
         });
     },
