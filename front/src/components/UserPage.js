@@ -2,6 +2,8 @@ import axios from 'axios';
 import styled from 'styled-components';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useUserDispatch, useUserState } from '../UserContext';
+import { Link } from 'react-router-dom';
+import { useTransferDispatch } from '../TransferContext';
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,8 +29,9 @@ function UserPage() {
   const url = '210.91.148.88';
   const userState = useUserState();
   const userDispatch = useUserDispatch();
+  const imageDispatch = useTransferDispatch();
   const [images, setImages] = useState([]);
-
+  let imageRef;
   useEffect(async () => {
     console.log(userState.result);
     if (typeof window !== 'undefined' && userState.result === 0) {
@@ -47,21 +50,45 @@ function UserPage() {
         .get(`http://${url}:3000/image/getMemberImages?${queryParams}`)
         .then((res) => {
           const data = res.data.images;
+          console.log(data);
           setImages({ ...images, ...data });
         });
     }
   });
   const value = Object.values(images);
+  const ToQuiz = (imageUrl, imageId) => {
+    localStorage.setItem('imageId', imageId);
+    const imf = 'serverCaption';
+    const prv = imageUrl;
+    imageDispatch({ type: 'SAVE', imf, prv });
+    imageRef.click();
+  };
   return (
     <Wrapper>
       <h2>안녕하세요 {userState.name} 님</h2>
       <p>
         보유중인 사진
         <GridContainer>
-          {value.length > 0 &&
-            value.map((image) => {
-              return <img src={image.url} key={image.id}></img>;
-            })}
+          {value.length > 0 ? (
+            value.map((image, index) => {
+              return (
+                <>
+                  <img
+                    src={image.url}
+                    key={index}
+                    onClick={() => ToQuiz(image.url, image._id)}
+                  ></img>
+                  <Link
+                    to={`/quiz`}
+                    style={{ display: 'none' }}
+                    ref={(refParam) => (imageRef = refParam)}
+                  ></Link>
+                </>
+              );
+            })
+          ) : (
+            <p style={{ marginTop: '30px' }}>보유중인 사진이 없습니다.</p>
+          )}
         </GridContainer>
       </p>
     </Wrapper>
