@@ -14,11 +14,8 @@ const Modal = (props) => {
           </header>
           <main>{props.children}</main>
           <footer>
-            <button className="close" onClick={closeYes}>
-              예
-            </button>
-            <button className="close" onClick={closeNo}>
-              아니오
+            <button className="close" onClick={close}>
+              닫기
             </button>
           </footer>
         </section>
