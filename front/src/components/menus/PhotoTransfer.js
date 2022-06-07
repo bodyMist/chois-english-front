@@ -409,16 +409,26 @@ const PhotoTransfer = () => {
             image.sentence_similarity > 0.62 &&
             image.sentence_similarity < 0.71 ? (
             <p>단어를 조금만 바꿔볼까요?</p>
+          ) : image.word_similarity > 0.32 &&
+            image.word_similarity < 0.62 &&
+            image.sentence_similarity > 0.71 &&
+            image.sentence_similarity < 2 ? (
+            <p>문장과는 어울리지 않는 단어에요</p>
           ) : image.word_similarity > 0.62 &&
             image.word_similarity < 0.71 &&
             image.sentence_similarity > 0.32 &&
             image.sentence_similarity < 0.62 ? (
-            <p>문장과는 어울리지 않는 단어에요</p>
+            <p>단어를 조금만 바꿔볼까요?</p>
           ) : image.word_similarity > 0.62 &&
             image.word_similarity < 0.71 &&
             image.sentence_similarity > 0.62 &&
             image.sentence_similarity < 0.71 ? (
             <p>아쉬워요</p>
+          ) : image.word_similarity > 0.62 &&
+            image.word_similarity < 0.71 &&
+            image.sentence_similarity > 0.71 &&
+            image.sentence_similarity < 2 ? (
+            <p>단어를 조금만 바꿔볼까요?</p>
           ) : image.word_similarity > 0.71 &&
             image.word_similarity < 0.9 &&
             image.sentence_similarity > 0.32 &&
@@ -428,6 +438,16 @@ const PhotoTransfer = () => {
             image.word_similarity < 0.9 &&
             image.sentence_similarity > 0.62 &&
             image.sentence_similarity < 0.71 ? (
+            <p>단어롤 조금만 바꿔볼까요?</p>
+          ) : image.word_similarity > 0.71 &&
+            image.word_similarity < 0.9 &&
+            image.sentence_similarity > 0.71 &&
+            image.sentence_similarity < 2 ? (
+            <p>단어롤 조금만 바꿔볼까요?</p>
+          ) : image.word_similarity > 0.9 &&
+            image.word_similarity < 0.95 &&
+            image.sentence_similarity > 0.9 &&
+            image.sentence_similarity < 0.95 ? (
             <p>단어롤 조금만 바꿔볼까요?</p>
           ) : (
             <p>정답이에요!</p>
