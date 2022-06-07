@@ -117,6 +117,15 @@ function UserPage() {
     [userState]
   );
   const value = Object.values(images);
+  const deleteMember = async () => {
+    await axios
+      .delete(`http://${url}:3000/member/delete?id=${userState.id}`)
+      .then((res) => {
+        console.log(res);
+        userDispatch({ type: 'LOGOUT' });
+        localStorage.removeItem('userData');
+      });
+  };
   return (
     <Wrapper>
       <h2>안녕하세요 {userState.name} 님</h2>
@@ -132,6 +141,11 @@ function UserPage() {
           )}
         </GridContainer>
       </p>
+      <div style={{ position: 'absolute', top: '85%' }}>
+        <Button type="primary" danger onClick={deleteMember}>
+          회원탈퇴
+        </Button>
+      </div>
     </Wrapper>
   );
 }
