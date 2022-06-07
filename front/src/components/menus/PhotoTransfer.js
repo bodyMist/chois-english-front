@@ -401,6 +401,11 @@ const PhotoTransfer = () => {
             image.sentence_similarity > 0 &&
             image.sentence_similarity < 0.62 ? (
             <p>틀렸어요</p>
+          ) : image.word_similarity > 0 &&
+            image.word_similarity < 0.62 &&
+            image.sentence_similarity > 0.62 &&
+            image.sentence_similarity < 2 ? (
+            <p>문장과는 어울리지 않는 단어에요</p>
           ) : image.word_similarity > 0.32 &&
             image.word_similarity < 0.62 &&
             image.sentence_similarity > 0.62 &&
