@@ -394,14 +394,11 @@ const PhotoTransfer = () => {
             display: `${type === 'word' ? 'block' : 'none'}`,
           }}
         >
-          {image.word_similarity >= 0 &&
-          image.word_similarity < 0.32 &&
-          image.sentence_similarity >= 0 &&
-          image.sentence_similarity < 0.32 ? (
+          {image.word_similarity == 0 && image.word_similarity == 0 ? (
             <p>'?' 를 클릭하고 정답을 입력해주세요!</p>
-          ) : image.word_similarity > 0.32 &&
+          ) : image.word_similarity > 0 &&
             image.word_similarity < 0.62 &&
-            image.sentence_similarity > 0.32 &&
+            image.sentence_similarity > 0 &&
             image.sentence_similarity < 0.62 ? (
             <p>틀렸어요</p>
           ) : image.word_similarity > 0.32 &&
