@@ -7,7 +7,8 @@ const Image = {
   blank: '',
   loaded: false,
   captioned: false,
-  score: 0,
+  word_similarity: 0,
+  sentence_similarity: 0,
   hint: '',
 };
 function TransferReducer(state, action) {
@@ -55,7 +56,8 @@ function TransferReducer(state, action) {
     case 'SCORESET':
       return {
         ...state,
-        score: action.score,
+        word_similarity: action.word_similarity,
+        sentence_similarity: action.sentence_similarity,
       };
     case 'HINTSET':
       return {

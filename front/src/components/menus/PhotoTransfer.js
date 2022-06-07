@@ -282,11 +282,9 @@ const PhotoTransfer = () => {
         blank: blank,
       })
       .then((res) => {
-        const score =
-          type === 'word'
-            ? res.data.word_similarity
-            : res.data.sentence_similarity;
-        dispatch({ type: 'SCORESET', score });
+        const word_similarity = res.data.word_similarity;
+        const sentence_similarity = res.data.sentence_similarity;
+        dispatch({ type: 'SCORESET', word_similarity, sentence_similarity });
       });
   };
   return (
@@ -368,16 +366,69 @@ const PhotoTransfer = () => {
         <div
           style={{
             marginTop: '10px',
+            display: `${type === 'sentence' ? 'block' : 'none'}`,
           }}
         >
-          {image.score >= 0 && image.score < 0.62 ? (
-            <p>정답을 입력해주세요!</p>
-          ) : image.score > 0.62 && image.score < 0.71 ? (
+          {image.sentence_similarity >= 0 &&
+          image.sentence_similarity < 0.32 ? (
+            <p>'?' 를 클릭하고 정답을 입력해주세요!</p>
+          ) : image.sentence_similarity > 0.32 &&
+            image.sentence_similarity < 0.62 ? (
+            <p>틀렸어요</p>
+          ) : image.sentence_similarity > 0.62 &&
+            image.sentence_similarity < 0.71 ? (
             <p>아쉬워요!</p>
-          ) : image.score > 0.71 && image.score < 0.9 ? (
+          ) : image.sentence_similarity > 0.71 &&
+            image.sentence_similarity < 0.9 ? (
             <p>단어를 조금만 바꿔볼까요?</p>
-          ) : image.score > 0.9 && image.score < 0.96 ? (
+          ) : image.sentence_similarity > 0.9 &&
+            image.sentence_similarity < 0.96 ? (
             <p>거의 다 왔어요!</p>
+          ) : (
+            <p>정답이에요!</p>
+          )}
+        </div>
+        <div
+          style={{
+            marginTop: '10px',
+            display: `${type === 'word' ? 'block' : 'none'}`,
+          }}
+        >
+          {image.word_similarity >= 0 &&
+          image.word_similarity < 0.32 &&
+          image.sentence_similarity >= 0 &&
+          image.sentence_similarity < 0.32 ? (
+            <p>'?' 를 클릭하고 정답을 입력해주세요!</p>
+          ) : image.word_similarity > 0.32 &&
+            image.word_similarity < 0.62 &&
+            image.sentence_similarity > 0.32 &&
+            image.sentence_similarity < 0.62 ? (
+            <p>틀렸어요</p>
+          ) : image.word_similarity > 0.32 &&
+            image.word_similarity < 0.62 &&
+            image.sentence_similarity > 0.62 &&
+            image.sentence_similarity < 0.71 ? (
+            <p>단어를 조금만 바꿔볼까요?</p>
+          ) : image.word_similarity > 0.62 &&
+            image.word_similarity < 0.71 &&
+            image.sentence_similarity > 0.32 &&
+            image.sentence_similarity < 0.62 ? (
+            <p>문장과는 어울리지 않는 단어에요</p>
+          ) : image.word_similarity > 0.62 &&
+            image.word_similarity < 0.71 &&
+            image.sentence_similarity > 0.62 &&
+            image.sentence_similarity < 0.71 ? (
+            <p>아쉬워요</p>
+          ) : image.word_similarity > 0.71 &&
+            image.word_similarity < 0.9 &&
+            image.sentence_similarity > 0.32 &&
+            image.sentence_similarity < 0.62 ? (
+            <p>문장과는 어울리지 않는 단어에요</p>
+          ) : image.word_similarity > 0.71 &&
+            image.word_similarity < 0.9 &&
+            image.sentence_similarity > 0.62 &&
+            image.sentence_similarity < 0.71 ? (
+            <p>단어롤 조금만 바꿔볼까요?</p>
           ) : (
             <p>정답이에요!</p>
           )}

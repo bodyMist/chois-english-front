@@ -5,8 +5,8 @@ import { useMenuDispatch } from '../../MenuContext';
 import { useUserDispatch, useUserState } from '../../UserContext';
 const NavContainer = styled.div`
   position: absolute;
-  top: 20%;
-  right: 5%;
+  top: 40%;
+  right: 10%;
   .isLogin {
     &.Login {
       display: none;
