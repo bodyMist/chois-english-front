@@ -1,5 +1,6 @@
 {
-  "name": "front",
+  "homepage": "https://bodymist.github.io/chois-english-front",
+  "name": "chois-english-front",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -24,7 +25,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "homepage": "https://bodymist.github.io/chois-english-front",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
