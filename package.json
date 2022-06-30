@@ -24,7 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "homepage": "https://bodymist.github.io/chois-english-front/",
+    "homepage": "https://bodymist.github.io/chois-english-front",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
